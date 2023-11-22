@@ -1,0 +1,31 @@
+package com.example.demo.service;
+import com.example.demo.Drink;
+import java.util.List;
+import java.util.Optional;
+
+import com.example.demo.repository.DrinkRepository;
+import com.example.demo.service.DrinkService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DrinkServiceImpl implements DrinkService{
+    @Autowired
+    DrinkRepository drinkRepository;
+    @Override
+    public Drink saveDrink(Drink drink) {
+        return drinkRepository.save(drink);
+    }
+
+    @Override
+    public Drink getDrinkById(long Id) {
+        Optional<Drink> drink = drinkRepository.findById(Id); // has it's present and it's null
+        Drink emptyDrink = null;
+        if (drink.isPresent()){
+            emptyDrink = drink.get();
+            return emptyDrink;
+        }else{
+            throw new RuntimeException("Drink not found");
+        }
+
+    }
